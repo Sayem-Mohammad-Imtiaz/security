@@ -24,9 +24,9 @@ import java.io.*;
 import java.util.logging.Logger;
 
 
-public class ResourceInjection_099
+public class CustomAdd
 {
-	public ResourceInjection_099()
+	public void CustomAdd_1()
 	{
 		byte inputBuffer[] = new byte[ 128 ];
 		
@@ -78,7 +78,7 @@ public class ResourceInjection_099
 
 	public static void main( String[] argv )
 	{
-		new ResourceInjection_099();
+		new CustomAdd().CustomAdd_1();
 	}
 }
 
