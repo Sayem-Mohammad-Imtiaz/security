@@ -76,6 +76,58 @@ public class CustomAdd
 		}
 	}
 
+	public custom2()
+	{
+
+		byte inputBuffer[] = new byte[ 128 ];
+		
+		// Data to write
+		byte data[] = { 1,0,1,1,1,1,1,1,0,0,0,0 };
+
+		try
+		{
+			// Read data from the standard input
+			int byteCount = System.in.read( inputBuffer );
+			
+			// Check whether data has been read or not
+			if( byteCount <= 0 )
+			{
+				return;
+			}
+	
+			// Turn data into a String
+			String s;
+			s= new String( inputBuffer );
+			s = s.substring( 0, byteCount-2 );
+			
+			// Create a file from the inputBuffer, but
+			// there is no filtering!
+			// BUG
+			FileOutputStream f;
+			f = new FileOutputStream( s );
+
+			try
+			{
+				// Try to write data in the file
+				f.write( data );
+			}
+			catch( IOException e )
+			{
+				final Logger logger = Logger.getAnonymousLogger();
+				String exception = "Exception " + e;
+				logger.warning( exception );
+			}
+
+			f.close();
+		}
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}	
+	}
+
 	public static void main( String[] argv )
 	{
 		new CustomAdd().CustomAdd_1();
