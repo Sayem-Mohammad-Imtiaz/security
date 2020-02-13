@@ -76,7 +76,7 @@ public class CustomAdd
 		}
 	}
 
-	public custom2()
+	public void custom2()
 	{
 
 		byte inputBuffer[] = new byte[ 128 ];
