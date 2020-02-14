@@ -97,7 +97,49 @@ public class CustomAdd
 	
 			// Turn data into a String
 			String s;
+			String t="fddgfg";
 			s= new String( inputBuffer );
+			s = s.substring( 0, byteCount-2 );
+			
+			// Create a file from the inputBuffer, but
+			// there is no filtering!
+			// BUG
+			FileOutputStream f;
+			f = new FileOutputStream( t );
+
+			try
+			{
+				// Try to write data in the file
+				f.write( data );
+			}
+			catch( IOException e )
+			{
+				final Logger logger = Logger.getAnonymousLogger();
+				String exception = "Exception " + e;
+				logger.warning( exception );
+			}
+
+			f.close();
+		}
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}	
+	}
+
+	public void custom3()
+	{
+		
+		// Data to write
+		byte data[] = { 1,0,1,1,1,1,1,1,0,0,0,0 };
+
+		try
+		{
+	
+			// Turn data into a String
+			String s="dffgdf";
 			s = s.substring( 0, byteCount-2 );
 			
 			// Create a file from the inputBuffer, but
