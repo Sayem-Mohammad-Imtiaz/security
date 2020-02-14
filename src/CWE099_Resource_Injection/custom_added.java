@@ -26,55 +26,55 @@ import java.util.logging.Logger;
 
 public class CustomAdd
 {
-	// public void CustomAdd_1()
-	// {
-	// 	byte inputBuffer[] = new byte[ 128 ];
+	public void CustomAdd_1()
+	{
+		byte inputBuffer[] = new byte[ 128 ];
 		
-	// 	// Data to write
-	// 	byte data[] = { 1,0,1,1,1,1,1,1,0,0,0,0 };
+		// Data to write
+		byte data[] = { 1,0,1,1,1,1,1,1,0,0,0,0 };
 
-	// 	try
-	// 	{
-	// 		// Read data from the standard input
-	// 		int byteCount = System.in.read( inputBuffer );
+		try
+		{
+			// Read data from the standard input
+			int byteCount = System.in.read( inputBuffer );
 			
-	// 		// Check whether data has been read or not
-	// 		if( byteCount <= 0 )
-	// 		{
-	// 			return;
-	// 		}
+			// Check whether data has been read or not
+			if( byteCount <= 0 )
+			{
+				return;
+			}
 	
-	// 		// Turn data into a String
-	// 		String s = new String( inputBuffer );
-	// 		s = s.substring( 0, byteCount-2 );
+			// Turn data into a String
+			String s = new String( inputBuffer );
+			s = s.substring( 0, byteCount-2 );
 			
-	// 		// Create a file from the inputBuffer, but
-	// 		// there is no filtering!
-	// 		// BUG
-	// 		FileOutputStream f;
-	// 		f = new FileOutputStream( s );
+			// Create a file from the inputBuffer, but
+			// there is no filtering!
+			// BUG
+			FileOutputStream f;
+			f = new FileOutputStream( s );
 
-	// 		try
-	// 		{
-	// 			// Try to write data in the file
-	// 			f.write( data );
-	// 		}
-	// 		catch( IOException e )
-	// 		{
-	// 			final Logger logger = Logger.getAnonymousLogger();
-	// 			String exception = "Exception " + e;
-	// 			logger.warning( exception );
-	// 		}
+			try
+			{
+				// Try to write data in the file
+				f.write( data );
+			}
+			catch( IOException e )
+			{
+				final Logger logger = Logger.getAnonymousLogger();
+				String exception = "Exception " + e;
+				logger.warning( exception );
+			}
 
-	// 		f.close();
-	// 	}
-	// 	catch( IOException e )
-	// 	{
-	// 		final Logger logger = Logger.getAnonymousLogger();
-	// 		String exception = "Exception " + e;
-	// 		logger.warning( exception );
-	// 	}
-	// }
+			f.close();
+		}
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}
+	}
 
 	public void custom2()
 	{
