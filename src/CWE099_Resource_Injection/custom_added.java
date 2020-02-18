@@ -90,7 +90,7 @@ public class CustomAdd
 			// there is no filtering!
 			// BUG
 			String s;
-			s=br;
+			s=input;
 			FileOutputStream f;
 			f = new FileOutputStream( s );
 
