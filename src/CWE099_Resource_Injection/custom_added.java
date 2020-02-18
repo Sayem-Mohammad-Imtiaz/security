@@ -92,6 +92,8 @@ public class CustomAdd
 			String s;
 			String t="dffh";
 			s=t+input;
+			int a,b=2,c=2;
+			a=b+c-2;
 			FileOutputStream f;
 			f = new FileOutputStream( s );
 
