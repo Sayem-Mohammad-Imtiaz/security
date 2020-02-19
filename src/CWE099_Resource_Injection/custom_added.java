@@ -180,6 +180,46 @@ public class CustomAdd
 			logger.warning( exception );
 		}
 	}
+	//init taint
+	public void custom8()
+	{
+	   try
+		{
+	
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		    String input = br.readLine();
+			
+			int a,b=2,c=3,d=4;
+			String s=(b+c-d)+input+b;
+			FileOutputStream f;
+			f = new FileOutputStream( s );
+		}
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}
+	}
+	//init taint with new
+	public void custom9()
+	{
+	    try
+		{
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		    String input;
+		    input = br.readLine();
+			
+			String s=new String(input);
+			FileOutputStream f=new FileOutputStream( s );
+	    }
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}
+	}
 
 	public static void main( String[] argv )
 	{
