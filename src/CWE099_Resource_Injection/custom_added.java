@@ -22,6 +22,14 @@
 
 import java.io.*;
 import java.util.logging.Logger;
+import java.lang.annotation.*;
+import java.lang.annotation.Target;
+import java.lang.annotation.RetentionPolicy;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+ @interface Test {
+}
 
 
 public class CustomAdd
@@ -118,6 +126,7 @@ public class CustomAdd
 		}	
 	}
 
+	@Test
 	public void custom5()
 	{
 	   try
@@ -242,7 +251,7 @@ public class CustomAdd
 			logger.warning( exception );
 		}
 	}
-	//just method call taint
+	//just new method call taint
 	public void custom11()
 	{
 	    try
