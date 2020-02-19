@@ -78,7 +78,7 @@ public class CustomAdd
 
 	public void custom4()
 	{
-		
+		byte data[] = { 1,0,1,1,1,1,1,1,0,0,0,0 };
 		try
 		{
 	
@@ -120,26 +120,42 @@ public class CustomAdd
 
 	public void custom5()
 	{
+	   try
+		{
 	
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		    String input = br.readLine();
 			
 			String s;
-			int a,b=2;
-			s=t+input;
+			int a,b=2,c=3,d=4;
 			s=(b+c-d)+input+b;
 			FileOutputStream f;
 			f = new FileOutputStream( s );
+		}
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}
 	}
 	public void custom6()
 	{
-	
+	    try
+		{
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		    String input = br.readLine();
 			
 			String s;
-			s=new String(input)
+			s=new String(input);
 			FileOutputStream f=new FileOutputStream( s );
+	    }
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}
 	}
 
 	public static void main( String[] argv )
