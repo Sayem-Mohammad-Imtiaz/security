@@ -79,7 +79,6 @@ public class CustomAdd
 	public void custom4()
 	{
 		
-
 		try
 		{
 	
@@ -117,6 +116,30 @@ public class CustomAdd
 			String exception = "Exception " + e;
 			logger.warning( exception );
 		}	
+	}
+
+	public void custom5()
+	{
+	
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		    String input = br.readLine();
+			
+			String s;
+			int a,b=2;
+			s=t+input;
+			s=(b+c-d)+input+b;
+			FileOutputStream f;
+			f = new FileOutputStream( s );
+	}
+	public void custom6()
+	{
+	
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		    String input = br.readLine();
+			
+			String s;
+			s=new String(input)
+			FileOutputStream f=new FileOutputStream( s );
 	}
 
 	public static void main( String[] argv )
