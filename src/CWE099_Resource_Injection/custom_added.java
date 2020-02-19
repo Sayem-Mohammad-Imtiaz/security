@@ -220,6 +220,47 @@ public class CustomAdd
 			logger.warning( exception );
 		}
 	}
+	//init non-taint
+	public void custom10()
+	{
+	   try
+		{
+	
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		    String input;
+		    input= br.readLine();
+			
+			int a,b=2,c=3,d=4;
+			String s=(b+c-d)+b+"ghgh";
+			FileOutputStream f;
+			f = new FileOutputStream( s );
+		}
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}
+	}
+	//just method call taint
+	public void custom11()
+	{
+	    try
+		{
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		    String input;
+		    input = br.readLine();
+			
+			String s=new String(input);
+			new FileOutputStream( s );
+	    }
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}
+	}
 
 	public static void main( String[] argv )
 	{
