@@ -144,7 +144,8 @@ public class CustomAdd
 	    try
 		{
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		    String input = br.readLine();
+		    String input;
+		    input = br.readLine();
 			
 			String s;
 			s=new String(input);
@@ -163,7 +164,8 @@ public class CustomAdd
 		{
 	
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		    String input = br.readLine();
+		    String input;
+		    input= br.readLine();
 			
 			String s;
 			int a,b=2,c=3,d=4;
