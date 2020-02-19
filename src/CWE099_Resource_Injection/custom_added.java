@@ -157,6 +157,27 @@ public class CustomAdd
 			logger.warning( exception );
 		}
 	}
+	public void custom7()
+	{
+	   try
+		{
+	
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		    String input = br.readLine();
+			
+			String s;
+			int a,b=2,c=3,d=4;
+			s=(b+c-d)+b+"ghgh";
+			FileOutputStream f;
+			f = new FileOutputStream( s );
+		}
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}
+	}
 
 	public static void main( String[] argv )
 	{
