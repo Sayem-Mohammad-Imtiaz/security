@@ -252,7 +252,7 @@ public class CustomAdd
 		}
 	}
 	//just new method call taint
-	public void custom11()
+	public void custom11Test()
 	{
 	    try
 		{
