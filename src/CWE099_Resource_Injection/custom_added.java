@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import java.lang.annotation.*;
 import java.lang.annotation.Target;
 import java.lang.annotation.RetentionPolicy;
+import java.util.*; 
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -263,6 +264,27 @@ public class CustomAdd
 			String s=new String(input);
 			new FileOutputStream( s );
 	    }
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}
+	}
+	//init taint
+	public void custom12()
+	{
+	   try
+		{
+	
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		    String input = br.readLine();
+			
+			HashMap<Integer, String> hash_map = new HashMap<Integer, String>(); 
+			hash_map.put(1,input);
+			FileOutputStream f;
+			f = new FileOutputStream( hash_map.get(1) );
+		}
 		catch( IOException e )
 		{
 			final Logger logger = Logger.getAnonymousLogger();
