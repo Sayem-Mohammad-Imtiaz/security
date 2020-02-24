@@ -292,6 +292,43 @@ public class CustomAdd
 			logger.warning( exception );
 		}
 	}
+	public void custom13()
+	{
+	   try
+		{
+	
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		    String input = br.readLine();
+			String s="dghgh".concat(input);
+			FileOutputStream f;
+			f = new FileOutputStream( s);
+		}
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}
+	}
+	public void custom14()
+	{
+	   try
+		{
+	
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		    String input = br.readLine();
+			String s;
+			s=input.concat("sdhff");
+			FileOutputStream f;
+			f = new FileOutputStream( s);
+		}
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}
+	}
 
 	public static void main( String[] argv )
 	{
