@@ -329,6 +329,121 @@ public class CustomAdd
 			logger.warning( exception );
 		}
 	}
+	public void custom15()
+	{
+	   try
+		{
+	
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		    String input = br.readLine();
+			StringBuffer s=new StringBuffer(s);
+			FileOutputStream f;
+			f = new FileOutputStream( s);
+		}
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}
+	}
+	public void custom16()
+	{
+	   try
+		{
+	
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		    String input = br.readLine();
+			StringBuffer s=new StringBuffer("dhvh");
+			FileOutputStream f;
+			f = new FileOutputStream( s);
+		}
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}
+	}
+	public void custom17()
+	{
+	   try
+		{
+	
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		    String input = br.readLine();
+			StringBuffer s=new StringBuffer("dhvh");
+			s.append(input);
+			FileOutputStream f;
+			f = new FileOutputStream( s);
+		}
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}
+	}
+	public void custom18()
+	{
+	   try
+		{
+	
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		    String input = br.readLine();
+			StringBuffer s=new StringBuffer("dhvh");
+			s.insert(0,input);
+			FileOutputStream f;
+			f = new FileOutputStream( s);
+		}
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}
+	}
+	public void custom19()
+	{
+	   try
+		{
+	
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		    String input = br.readLine();
+			StringBuffer s=new StringBuffer("dhvh");
+			String t="fdgf";
+			s.insert(0,t);
+			FileOutputStream f;
+			f = new FileOutputStream( s);
+		}
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}
+	}
+	public void custom20()
+	{
+	   try
+		{
+	
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		    String input = br.readLine();
+			StringBuffer s=new StringBuffer("dhvh");
+			String t=input;
+			s.insert(0,t);
+			String p=s.toString();
+			FileOutputStream f;
+			f = new FileOutputStream( p);
+		}
+		catch( IOException e )
+		{
+			final Logger logger = Logger.getAnonymousLogger();
+			String exception = "Exception " + e;
+			logger.warning( exception );
+		}
+	}
 
 	public static void main( String[] argv )
 	{
