@@ -92,7 +92,7 @@ public class CWE89_SQL_Injection__URLConnection_prepareStatement_81_goodG2B exte
             String ss="insert into users (status) values ('updated') where name='"+data+"'";
             /* POTENTIAL FLAW: data concatenated into SQL statement used in prepareStatement() call, which could result in SQL Injection */
             dbConnection = IO.getDBConnection(ss);
-            sqlStatement = dbConnection.prepareStatement();
+            sqlStatement = dbConnection.prepareStatement(ss);
 
             Boolean result = sqlStatement.execute();
 
