@@ -1,0 +1,871 @@
+p: Project = input;
+curr_files:string;
+temp4:string;
+temp5:string;
+tempString:string;
+allProjects: output sum of int;
+sensitiveProjects: output sum of int;
+nonconformingProjects: output sum of int;
+allMethods: output sum of int;
+sensitiveMethods: output sum of int;
+nonconformingMethods: output sum of int;
+counts: output set[string] of string;
+source: output set[string] of string;
+sink: output set[string] of string;
+secureCount:output sum of int;
+sourceCount:output sum of int;
+sinkCount:output sum of int;
+nodePrint: output collection of string;
+count:int=0;
+count1:int=0;
+count2:int=0;
+count3:int=0;
+tempCall:set of string;
+tempCallBase:map[int] of string;
+OutertempCall:set of string;
+flag1: bool=false;
+flag2: bool=false;
+
+isSecureStack: set of Expression;
+isSecureSetStack: set of Expression;
+prepareStatement:set of string;
+taintMethod:set of string;
+taintClassVar: set of string;
+taintVariableWithinMethod:set of string;
+taintStaticVar:set of string;
+taintFinal: set of string;
+taintStaticMethodRef:set of string;
+taintedRefMethod:set of string;
+taintedRefMethodArr: array of string;
+taintedRefMethodCallArr: array of string;
+new_arr_map: map[int] of string;
+new_arr1_map: map[int] of string;
+new_arr2_map: map[int] of string;
+new_arr3_map: map[int] of string;
+new_arr4_map: map[int] of string;
+new_arr5_map: map[int] of string;
+new_arr6_map: map[int] of string;
+filename: string;
+methodname: string;
+inMethod: bool = false;
+containingTypes: stack of string;
+hasAST: bool = false;
+isSensitiveProject: bool = false;
+isNonconformingProject: bool = false;
+isNonconformingMethod: bool = false;
+isSecureCheck: bool =false;
+isSecureSetCheck: bool=false;
+sources: set of Expression;
+sinks: set of Expression;
+
+stkFieldTypes: stack of map[string] of string;
+stkVariableTypes: stack of map[string] of string;
+
+getFQN := function(types: stack of string) : string {
+    fqn: string = "";
+    t: string;
+    stkTemp: stack of string;
+  while (true) {
+      t = pop(types);
+      if (def(t)) {
+          push(stkTemp, t);
+      } else break;
+  }
+  while (true) {
+      t = pop(stkTemp);
+      if (def(t)) {
+          fqn = fqn + t + ".";
+          push(types, t);
+      }
+      else break;
+  }
+  return fqn;
+};
+dependency :=function(file: string, method_name:string)
+{
+  temp4="";
+  temp5="";
+  for(k := 0; k < len(new_arr4_map); k++)
+  {
+    if(len(new_arr4_map[k])>0)
+    {
+      if(strfind(new_arr4_map[k], file+"==="+method_name)>=0)
+      {
+      temp4=substring(new_arr5_map[k],0,strfind ("===",new_arr5_map[k]));
+      temp5=substring(new_arr5_map[k],strfind ("===",new_arr5_map[k])+3,len(new_arr5_map[k]));
+      source["https://github.com/" +p.name+  "/blob/master/"+temp4] << temp5;
+      sourceCount<<1;
+      }
+    }
+  }
+  while(true)
+  {
+    if(temp4!="" && (strfind(".",temp5)>-1))
+    {
+      file1:=temp4;
+      method_name1:=substring(temp5, strfind (".",temp5)+1,len(temp5));
+      temp4="";
+      temp5="";
+      for(l := 0; l < len(new_arr4_map); l++)
+      {
+        if(len(new_arr4_map[l])>0)
+        {
+          if(strfind(new_arr4_map[l], file1+"==="+method_name1)>=0)
+          {
+          temp4=substring(new_arr5_map[l],0,strfind ("===",new_arr5_map[l]));
+          temp5=substring(new_arr5_map[l],strfind ("===",new_arr5_map[l])+3,len(new_arr5_map[l]));
+          source["https://github.com/"+p.name+ "/blob/master/"+temp4] << temp5;
+          sourceCount<<1;
+          }
+        }
+      }
+    }
+    else
+      break;
+  }
+};
+copyMap := function(dest: map[string] of string, source: map[string] of string) {
+    arrKeys : array of string = keys(source);
+    foreach (i: int; def(arrKeys[i]))
+        dest[arrKeys[i]] = source[arrKeys[i]];
+};
+resolveType := function(expression: Expression) : string {
+    fieldTypes := peek(stkFieldTypes);
+    variableTypes := peek(stkVariableTypes);
+    if (expression.kind == ExpressionKind.VARACCESS) {
+        name: string = expression.variable;
+        if (len(expression.expressions) > 0) {
+            if (def(fieldTypes) && expression.expressions[0].kind == ExpressionKind.LITERAL && haskey(fieldTypes, name))
+                return fieldTypes[name];
+            return "UNKNOWN";
+        } else {
+            if (def(variableTypes) && haskey(variableTypes, name))
+                return variableTypes[name];
+            if (def(fieldTypes) && haskey(fieldTypes, name))
+                return fieldTypes[name];
+            return "UNKNOWN";
+        }
+    }
+    return "";
+};
+isSecureSet : =function(node: Expression) : bool
+{
+  if(node.kind==ExpressionKind.METHODCALL)
+  {
+    if (len(node.expressions) > 0)
+    {
+    foreach(i: int; node.expressions[i])
+    {
+      if(match("set",node.method) && match("PreparedStatement",resolveType(node.expressions[i])))
+        {
+          return true;
+        }
+    }
+    }
+  }
+  return false;
+};
+isSecure : =function(node: Expression) : bool
+{
+  if(node.kind==ExpressionKind.METHODCALL)
+  {
+    if (len(node.expressions) > 0)
+    {
+      if(node.method=="prepareStatement")
+        return true;
+    }
+  }
+  return false;
+};
+
+isTainted : =function(variable: string) : bool
+{
+  if(!contains(taintFinal, variable) && 
+              (contains(taintVariableWithinMethod, variable) || 
+                contains(taintMethod, variable)
+              )
+            )
+              return true;
+  return false;
+};
+
+checkVarAccessRSInjection := function(node: Expression): bool
+{
+  if(node.kind==ExpressionKind.VARACCESS)
+  {
+    
+     if(isTainted(node.variable)==true)
+        return true;
+    }
+    return false;
+};
+
+checkArrayAccessRSInjection := function(node: Expression): bool
+{
+  if(node.kind==ExpressionKind.ARRAYACCESS)
+  {
+    if(def(node.expressions))
+    {
+      foreach(k:int;node.expressions[k])
+      {
+        if(node.expressions[k].kind==ExpressionKind.VARACCESS)
+        {
+          if(isTainted(node.expressions[k].variable)==true)
+            return true;
+        }
+      }
+
+    }
+  }
+  return false;
+};
+
+checkOPAddRSInjection := function(node: Expression): bool
+{
+  if(node.kind==ExpressionKind.OP_ADD)
+  {
+        foreach(j:int;node.expressions[j])
+        {
+          #flag1 is true if a tainted variable is accessed in method arguments
+          if(checkVarAccessRSInjection(node.expressions[j])==true)
+          {
+              return true;
+          }
+
+          if(checkArrayAccessRSInjection(node.expressions[j])==true)
+          {
+            return true;
+          }
+        }
+    }
+    return false;
+};
+
+
+checkMethodArgTainted := function(node: Expression): bool
+{
+  flag1=false;
+    if(checkVarAccessRSInjection(node)==true)
+    {
+       return true;
+    }
+
+    if(checkArrayAccessRSInjection(node)==true)
+    {
+      return true;
+    }
+
+    if(checkOPAddRSInjection(node)==true)
+    {
+      return true;   
+    }
+  return false;
+};
+
+markMethodCallForTainted := function(node: Expression, parent: Variable)
+{
+  if(node.kind==ExpressionKind.METHODCALL)
+   {
+        if(node.method=="readLine"||node.method=="readBoolean"||node.method=="readByte"||
+          node.method=="readChar"||node.method=="readDouble"||node.method=="readFloat"||
+          node.method=="readFully"||node.method=="readInt"
+        )
+        {
+          add(taintMethod, parent.name);
+          add(taintVariableWithinMethod, parent.name);
+          if(contains(taintStaticVar, parent.name) && !contains(taintedRefMethod, methodname))
+          {
+            add(taintStaticMethodRef, curr_files+"."+methodname);
+          }
+        }
+        if(node.method=="read" && def(node.method_args))
+        {
+         if(len(node.method_args)==1)
+         {
+          add(taintMethod, node.method_args[0].variable);
+          add(taintVariableWithinMethod, node.method_args[0].variable);
+          if(contains(taintStaticVar, node.method_args[0].variable) && !contains(taintedRefMethod, methodname))
+          {
+            add(taintStaticMethodRef, curr_files+"."+methodname);
+          }
+         }
+        }
+        #String x=new String(tainted)
+        if(node.method=="String" && def(node.method_args))
+        {
+          foreach(x:int;node.method_args[x])
+            {
+                if(checkMethodArgTainted(node.method_args[x])==true)
+                {
+                    add(taintMethod, parent.name);
+                    add(taintVariableWithinMethod, parent.name);
+                    break;
+                }  
+                
+             }
+             
+        }
+         # String x=tainted.substring(tainted). mark x as tainted
+        if(node.method=="substring" && def(node.expressions))
+        {
+          foreach(x:int;node.expressions[x])
+            {
+                if(node.expressions[x].kind==ExpressionKind.VARACCESS)
+                if(checkVarAccessRSInjection(node.expressions[x])==true)
+                {
+                    add(taintMethod, parent.name);
+                    add(taintVariableWithinMethod, parent.name);
+                    break;
+                } 
+
+                if(node.expressions[x].kind==ExpressionKind.ARRAYACCESS)
+                if(checkArrayAccessRSInjection(node.expressions[x])==true)
+                {
+                    add(taintMethod, parent.name);
+                    add(taintVariableWithinMethod, parent.name);
+                    break;
+                }  
+                
+             }
+             
+        }
+   }
+};
+markMethodCallForTaintedAssign := function(node: Expression, parent: Expression)
+{
+  if(node.kind==ExpressionKind.METHODCALL)
+   {
+        if(node.method=="readLine"||node.method=="readBoolean"||node.method=="readByte"||
+          node.method=="readChar"||node.method=="readDouble"||node.method=="readFloat"||
+          node.method=="readFully"||node.method=="readInt"
+        )
+        {
+          add(taintMethod, parent.variable);
+          add(taintVariableWithinMethod, parent.variable);
+          if(contains(taintStaticVar, parent.variable) && !contains(taintedRefMethod, methodname))
+          {
+            add(taintStaticMethodRef, curr_files+"."+methodname);
+          }
+        }
+        if(node.method=="read" && def(node.method_args))
+        {
+         if(len(node.method_args)==1)
+         {
+          add(taintMethod, node.method_args[0].variable);
+          add(taintVariableWithinMethod, node.method_args[0].variable);
+          if(contains(taintStaticVar, node.method_args[0].variable) && !contains(taintedRefMethod, methodname))
+          {
+            add(taintStaticMethodRef, curr_files+"."+methodname);
+          }
+         }
+         # x=new String(tainted)
+        if(node.method=="String" && def(node.method_args))
+        {
+          foreach(x:int;node.method_args[x])
+            {
+                if(checkMethodArgTainted(node.method_args[x])==true)
+                {
+                    add(taintMethod, parent.variable);
+                    add(taintVariableWithinMethod, parent.variable);
+                    break;
+                }  
+                
+             }
+             
+         }
+
+         # x=tainted.substring(tainted)
+        if(node.method=="substring" && def(node.expressions))
+        {
+          foreach(x:int;node.expressions[x])
+            {
+                if(node.expressions[x].kind==ExpressionKind.VARACCESS)
+                if(checkVarAccessRSInjection(node.expressions[x])==true)
+                {
+                    add(taintMethod, parent.variable);
+                    add(taintVariableWithinMethod, parent.variable);
+                    break;
+                } 
+
+                if(node.expressions[x].kind==ExpressionKind.ARRAYACCESS)
+                if(checkArrayAccessRSInjection(node.expressions[x])==true)
+                {
+                    add(taintMethod, parent.variable);
+                    add(taintVariableWithinMethod, parent.variable);
+                    break;
+                }  
+                
+             }
+             
+        }
+        
+      }
+   }
+};
+isMethodSafe := function(name: string): bool
+{
+  if(name=="FileOutputStream"||name=="File")
+    return true;
+  return false;
+};
+
+
+taintrhs: bool = false;
+rhsvisitor:=visitor {
+  before node: Expression -> {
+
+    foreach(i:int;def(node.expressions[i]))
+    {
+      visit(node.expressions[i]);
+    }
+    if(node.kind==ExpressionKind.NEW)
+    {
+      foreach(x:int;def(node.method_args[x]))
+        {
+            visit(node.method_args[x]);
+         }
+     }
+    if(node.kind==ExpressionKind.METHODCALL)
+    {
+      if(node.method=="concat" || node.method=="copyValueOf")
+      {
+        foreach(x:int;def(node.method_args[x]))
+        {
+            visit(node.method_args[x]);
+        }
+      }
+     }
+
+    if(node.kind==ExpressionKind.VARACCESS)
+      if(checkVarAccessRSInjection(node)==true)
+      {
+          taintrhs=true;
+      } 
+
+    if(node.kind==ExpressionKind.ARRAYACCESS)
+      if(checkArrayAccessRSInjection(node)==true)
+      {
+        taintrhs=true;
+      }
+
+     if(node.kind==ExpressionKind.METHODCALL)
+     {
+          if(node.method=="readLine"||node.method=="readBoolean"||node.method=="readByte"||
+            node.method=="readChar"||node.method=="readDouble"||node.method=="readFloat"||
+            node.method=="readFully"||node.method=="readInt"
+          )
+          {
+            taintrhs=true;
+          }
+          if(node.method=="read" && def(node.method_args))
+          {
+            taintrhs=true;
+           if(len(node.method_args)==1)
+           {
+            add(taintMethod, node.method_args[0].variable);
+            add(taintVariableWithinMethod, node.method_args[0].variable);
+            if(contains(taintStaticVar, node.method_args[0].variable) && !contains(taintedRefMethod, methodname))
+            {
+              add(taintStaticMethodRef, curr_files+"."+methodname);
+            }
+           }
+          
+        }
+     }
+
+    stop;
+  }
+};
+
+checkRSInjectionForNew := function(node: Expression): bool
+{
+   if(isMethodSafe(node.new_type.name)==true)
+    {
+      
+        if(len(node.method_args)>0)
+        {
+          foreach(i:int;node.method_args[i])
+          {
+            taintrhs=false;
+            visit(node.method_args[i], rhsvisitor);
+            if(taintrhs)
+              return true;
+          }
+        }
+    }
+    return false;
+};
+
+#returns true or false whether a certain expression contains sql injection
+isResourceInjection:=function(node: Expression) : bool
+{
+
+  if(node.kind==ExpressionKind.NEW)
+  {
+    if(checkRSInjectionForNew(node)==true)
+    {
+      return true;
+    }
+  }
+
+  if(node.kind==ExpressionKind.VARDECL)
+  {
+    if(len(node.variable_decls)>0)
+    {
+      if(def(node.variable_decls[0].initializer))
+      {
+
+         taintrhs=false;
+         visit(node.variable_decls[0].initializer, rhsvisitor);
+
+          #---------Case 1: Var x=y----------------------
+            if(taintrhs)
+            {
+              add(taintMethod,node.variable_decls[0].name);
+              #is this a static variable, then add current method as tainted static method
+              if(contains(taintStaticVar, node.variable_decls[0].name) && !contains(taintedRefMethod,methodname))
+              {
+                add(taintStaticMethodRef, curr_files+"."+methodname);
+              }
+            }
+      }
+    }
+  }
+
+  #if assignment expression doesnt involve method call
+  if(node.kind==ExpressionKind.ASSIGN)
+  {
+    if(def(node.expressions))
+    {
+      if(len(node.expressions)>1)
+      {
+           #is the varible on rhs is tainted already?
+           taintrhs=false;
+           visit(node.expressions[1], rhsvisitor);
+
+          #---------Case 1: x=y----------------------
+            if(taintrhs && node.expressions[0].kind==ExpressionKind.ARRAYACCESS)
+            {
+
+              add(taintMethod,node.expressions[0].expressions[0].variable);
+              #is this a static variable, then add current method as tainted static method
+              if(contains(taintStaticVar, node.expressions[0].expressions[0].variable) && !contains(taintedRefMethod,methodname))
+              {
+                add(taintStaticMethodRef, curr_files+"."+methodname);
+              }
+            }
+            else if(taintrhs && (node.expressions[0].kind==ExpressionKind.VARACCESS||node.expressions[0].kind==ExpressionKind.NEW))
+            {
+              add(taintMethod,node.expressions[0].variable);
+              if(contains(taintStaticVar, node.expressions[0].variable) && !contains(taintedRefMethod,methodname))
+              {
+                add(taintStaticMethodRef, curr_files+"."+methodname);
+              }
+              if(strfind(".",node.expressions[0].variable)>-1)
+              {
+                add(taintMethod,substring(node.expressions[0].variable,0,strfind (".",node.expressions[0].variable)));
+                if(contains(taintStaticVar, substring(node.expressions[0].variable,0,strfind (".",node.expressions[0].variable))) && !contains(taintedRefMethod,methodname))
+                {
+                  add(taintStaticMethodRef, curr_files+"."+methodname);
+                }
+              }
+            }
+            #---------Case 1:End--------------------
+            #---------Case 2: X.z()=y-----Add(X)--------
+            if(taintrhs && node.expressions[0].kind==ExpressionKind.METHODCALL)
+            {
+              if(node.expressions[0].expressions[0].kind==ExpressionKind.VARACCESS)
+              {
+                if(strfind(".",node.expressions[0].expressions[0].variable)>-1)
+                {
+                  add(taintMethod, node.expressions[0].expressions[0].variable);
+                  if(contains(taintStaticVar, substring(node.expressions[0].expressions[0].variable,0,strfind (".",node.expressions[0].expressions[0].variable))) && !contains(taintedRefMethod, methodname))
+                  {
+                    add(taintStaticMethodRef, curr_files+"."+methodname);
+                  }
+                }
+              }
+            }
+            #---------Case 2: END------------------------
+      }
+    }
+  }
+
+  #-------Case 3: new X=Y.Z()----------------------
+  if(node.kind==ExpressionKind.VARDECL)
+  {
+    if(len(node.variable_decls)>0)
+    {
+      if(node.variable_decls[0].initializer.kind==ExpressionKind.METHODCALL)
+        {
+            if(len(node.variable_decls[0].initializer.expressions)>0)
+            {
+              foreach(i:int;node.variable_decls[0].initializer.expressions[i])
+              {
+                if(node.variable_decls[0].initializer.expressions[i].kind==ExpressionKind.VARACCESS)
+                    if(isTainted(node.variable_decls[0].initializer.expressions[i].variable)==true)
+                    {
+                      add(taintMethod, node.variable_decls[0].name);
+                      if(contains(taintStaticVar, node.variable_decls[0].name) && !contains(taintedRefMethod,methodname))
+                      {
+                        add(taintStaticMethodRef, curr_files+"."+methodname);
+                      }
+                    }
+                    if(match("Stream",resolveType(node.variable_decls[0].initializer.expressions[i])))
+                    {
+                      add(taintMethod, node.variable_decls[0].name);
+                      if(contains(taintStaticVar, node.variable_decls[0].name) && !contains(taintedRefMethod, methodname))
+                      {
+                        add(taintStaticMethodRef, curr_files+"."+methodname);
+                      }
+                    }
+              }
+            }
+        }
+      }
+  }
+
+  #-------Case 3: END------------------------------
+  if(node.kind==ExpressionKind.METHODCALL)
+  {
+    if(def(node.expressions))
+    {
+      if(len(node.expressions)>0)
+      {
+          if(node.method=="put"||node.method=="add" || node.method=="append" || node.method=="insert")
+          {
+            foreach(x:int;node.method_args[x])
+            {
+              taintrhs=false;
+              visit(node.method_args[x], rhsvisitor);
+
+              if(taintrhs)
+              {
+                if(node.expressions[0].kind==ExpressionKind.ARRAYACCESS)
+                {
+                  add(taintMethod,node.expressions[0].expressions[0].variable);
+                  if(contains(taintStaticVar, node.expressions[0].expressions[0].variable) && !contains(taintedRefMethod,methodname))
+                  {
+                    add(taintStaticMethodRef, curr_files+"."+methodname);
+                  }
+                }
+                else
+                {
+                  add(taintMethod,node.expressions[0].variable);
+                  if(contains(taintStaticVar, node.expressions[0].variable) && !contains(taintedRefMethod,methodname))
+                  {
+                    add(taintStaticMethodRef, curr_files+"."+methodname);
+                  }
+                }
+              }
+            }
+          }
+      }
+    }
+  }
+  return false;
+};
+
+visit(p, visitor {
+    before n: Project -> 
+    {
+      ifall (i: int; !match(`^java$`, lowercase(n.programming_languages[i]))) stop;
+#      nodePrint<<string(n);
+    }
+  before node: CodeRepository -> {
+#    nodePrint << string(node);
+  clear(new_arr4_map);
+  clear(new_arr5_map);
+  clear(new_arr6_map);
+  clear(taintMethod);
+  clear(taintStaticMethodRef);
+  clear(taintStaticVar);
+  clear(taintedRefMethod);
+  count2=0;
+  count3=0;
+    # only look at the latest snapshot
+    # and only include Java files
+    snapshot := getsnapshot(node, "SOURCE_JAVA_JLS");
+    foreach (i: int; def(snapshot[i])) {
+        filename = snapshot[i].name;
+      visit(snapshot[i]);
+    }
+    stop;
+  }
+  before n:ChangedFile ->
+  {
+    if(!match(".java",n.name)) stop;
+#        nodePrint << string(n);
+    curr_files=n.name;
+    clear(new_arr_map);
+    clear(new_arr1_map);
+    clear(new_arr2_map);
+    clear(new_arr3_map);
+    clear(taintFinal);
+    #clear(taintClassVar);
+
+    count=0;
+    count1=0;
+  }
+  before node: ASTRoot -> {
+      hasAST = true;
+#          nodePrint << string(node);
+  }
+  before node: Declaration -> {
+      push(containingTypes, node.name);
+      # update field types
+#      nodePrint << string(node);
+      fieldTypes: map[string] of string;
+      containingFieldTypes := peek(stkFieldTypes);
+      if (def(containingFieldTypes))
+          copyMap(fieldTypes, containingFieldTypes);
+        foreach (i: int; def(node.fields[i])) {
+            field1: Variable = node.fields[i];
+            fieldTypes[field1.name] = field1.variable_type.name;
+            if(def(node.fields[i].modifiers))
+            {
+              if(len(node.fields[i].modifiers)>0)
+              {
+                if(node.fields[i].modifiers[0].visibility==Visibility.PUBLIC||node.fields[i].modifiers[0].visibility==Visibility.PRIVATE)
+                {
+                    #add(taintClassVar, field1.name);
+                }
+               # if(node.fields[i].modifiers[1].kind==ModifierKind.STATIC)
+#                    add(taintStaticVar, field1.name);
+                foreach(j:int; def(node.fields[i].modifiers[j]))
+                {
+                  if(node.fields[i].modifiers[j].kind==ModifierKind.FINAL)
+                  {
+                    add(taintFinal, field1.name);
+                  }
+                }
+              }
+            }
+        }
+      push(stkFieldTypes, fieldTypes);
+  }
+  after node: Declaration -> {
+      pop(containingTypes);
+      pop(stkFieldTypes);
+  }
+  before node: Method -> {
+      if (!inMethod) {
+#       nodePrint<<string(node);
+#          clear(prepareStatement);
+          clear(tempCall);
+          clear(taintVariableWithinMethod);
+          clear(taintMethod);
+
+          testFlag:bool=false;
+          foreach(i:int;def(node.modifiers[i]))
+          {
+            if(node.modifiers[i].kind== ModifierKind.ANNOTATION)
+            {
+              if(uppercase(node.modifiers[i].annotation_name)== "TEST")
+              {
+                testFlag=true;
+                break;
+              }
+            }
+          }
+          if(testFlag) stop;
+          if(match(".*TEST$",uppercase(node.name))) stop;
+
+          foreach(i:int;node.arguments[i])
+          {
+            #if(node.arguments[i].variable_type.name=="String")
+              add(taintVariableWithinMethod, node.arguments[i].name);
+          }
+          # update local variable declaration types in formal parameters
+          parameterTypes: map[string] of string;
+          containingVariableTypes1 := peek(stkVariableTypes);
+          if (def(containingVariableTypes1))
+              copyMap(parameterTypes, containingVariableTypes1);
+            foreach (i: int; def(node.arguments[i])) {
+                para: Variable = node.arguments[i];
+                parameterTypes[para.name] = para.variable_type.name;
+            }
+            push(stkVariableTypes, parameterTypes);
+
+          allMethods << 1;
+          isNonconformingMethod = false;
+          inMethod = true;
+          clear(isSecureStack);
+          clear(isSecureSetStack);
+          methodname = getFQN(containingTypes) + node.name + "(" + string(len(node.arguments)) + ")";
+        foreach (i: int; def(node.statements[i])) {
+          visit(node.statements[i]);
+        }
+        inMethod = false;
+        isSecureCheck= len(isSecureStack)>0;
+        isSecureSetCheck= len(isSecureSetStack)>0;
+        clear(isSecureStack);
+        clear(isSecureSetStack);
+          if (isSecureCheck or isSecureSetCheck)
+          {
+            sinkCount << 1;
+            new_arr3_map[count1]=node.name+"==="+curr_files;
+            temp6:=splitall(curr_files,"/");
+            temp7:=temp6[len(temp6)-1];
+            temp8:=substring(temp7,0,strfind (".",temp7));
+            new_arr6_map[count3]=temp8+"==="+node.name;
+            count1++;
+            count3++;
+            sink["https://github.com/" + p.name + "/blob/master/" + filename] << methodname;
+            #dependency(curr_files, node.name);
+          }
+          pop(stkVariableTypes);
+      }
+      stop;
+  }
+  before node: Statement -> {
+      # update local variable declaration types
+      if (node.kind != StatementKind.EXPRESSION) {
+          variableTypes2: map[string] of string;
+          containingVariableTypes2 := peek(stkVariableTypes);
+          if (def(containingVariableTypes2))
+              copyMap(variableTypes2, containingVariableTypes2);
+            push(stkVariableTypes, variableTypes2);
+      }
+  }
+  after node: Statement -> {
+      # update local variable declaration types
+      if (node.kind != StatementKind.EXPRESSION)
+          pop(stkVariableTypes);
+  }
+  before node: Expression -> {
+      if (inMethod) {
+            if (node.kind == ExpressionKind.VARDECL) {
+                variableTypes1 := peek(stkVariableTypes);
+                foreach (i: int; def(node.variable_decls[i])) {
+                    v1: Variable = node.variable_decls[i];
+                    if(v1.initializer.kind==ExpressionKind.NEW)
+                    {
+                      variableTypes1[v1.name] = v1.initializer.new_type.name;
+                    }
+                    else
+                    {
+                      variableTypes1[v1.name] = v1.variable_type.name;
+                    }
+                }
+            }
+#            isStackSecureNo(node);
+            if (isResourceInjection(node)) {
+                add(isSecureStack, node);
+            }
+  }
+  }
+  after node: Expression -> {
+      if (inMethod) {
+          if (contains(isSecureSetStack, node))
+              isSecureSetCheck = true;
+      }
+  }
+});
+
+if (hasAST)
+    allProjects << 1;
+if (isSensitiveProject)
+    sensitiveProjects << 1;
+if (isNonconformingProject)
+    nonconformingProjects << 1;
