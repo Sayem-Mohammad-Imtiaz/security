@@ -137,4 +137,137 @@ public class CWE89_SQL_Injection__URLConnection_prepareStatement_81_goodG2B exte
         }
 
     }
+
+    public void action3(String data ) throws Throwable
+    {
+
+        Connection dbConnection = null;
+        PreparedStatement sqlStatement = null;
+
+        try
+        {
+            String ss="insert into users (status) values ('updated')";
+            /* POTENTIAL FLAW: data concatenated into SQL statement used in prepareStatement() call, which could result in SQL Injection */
+            dbConnection = IO.getDBConnection();
+            sqlStatement = dbConnection.prepareStatement(ss);
+
+            Boolean result = sqlStatement.execute();
+
+            if (result)
+            {
+                IO.writeLine("Name, " + data + ", updated successfully");
+            }
+            else
+            {
+                IO.writeLine("Unable to update records for user: " + data);
+            }
+        }
+        catch (SQLException exceptSql)
+        {
+            IO.logger.log(Level.WARNING, "Error getting database connection", exceptSql);
+        }
+        finally
+        {
+            try
+            {
+                if (sqlStatement != null)
+                {
+                    sqlStatement.close();
+                }
+            }
+            catch (SQLException exceptSql)
+            {
+                IO.logger.log(Level.WARNING, "Error closing PreparedStatement", exceptSql);
+            }
+
+            try
+            {
+                if (dbConnection != null)
+                {
+                    dbConnection.close();
+                }
+            }
+            catch (SQLException exceptSql)
+            {
+                IO.logger.log(Level.WARNING, "Error closing Connection", exceptSql);
+            }
+        }
+
+    }
+
+    public void action4(String data ) throws Throwable
+    {
+
+        Connection dbConnection = null;
+        PreparedStatement sqlStatement = null;
+
+        try
+        {
+            String ss="insert into users (status) values ('updated')";
+            /* POTENTIAL FLAW: data concatenated into SQL statement used in prepareStatement() call, which could result in SQL Injection */
+            dbConnection = IO.getDBConnection();
+            sqlStatement = dbConnection.prepareStatement(data);
+
+            Boolean result = sqlStatement.execute();
+
+            if (result)
+            {
+                IO.writeLine("Name, " + data + ", updated successfully");
+            }
+            else
+            {
+                IO.writeLine("Unable to update records for user: " + data);
+            }
+        }
+        catch (SQLException exceptSql)
+        {
+            IO.logger.log(Level.WARNING, "Error getting database connection", exceptSql);
+        }
+        finally
+        {
+            try
+            {
+                if (sqlStatement != null)
+                {
+                    sqlStatement.close();
+                }
+            }
+            catch (SQLException exceptSql)
+            {
+                IO.logger.log(Level.WARNING, "Error closing PreparedStatement", exceptSql);
+            }
+
+            try
+            {
+                if (dbConnection != null)
+                {
+                    dbConnection.close();
+                }
+            }
+            catch (SQLException exceptSql)
+            {
+                IO.logger.log(Level.WARNING, "Error closing Connection", exceptSql);
+            }
+        }
+
+    }
+    public void execute(String d)
+    {
+
+    }
+    public void action5(String data ) throws Throwable
+    {
+
+        try
+        {
+            String ss="insert into users (status) values ('updated')";
+            
+            this.execute(ss);
+        }
+        catch (SQLException exceptSql)
+        {
+            IO.logger.log(Level.WARNING, "Error getting database connection", exceptSql);
+        }
+
+    }
 }
