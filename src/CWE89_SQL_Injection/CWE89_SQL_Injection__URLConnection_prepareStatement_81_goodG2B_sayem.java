@@ -262,7 +262,7 @@ public class CWE89_SQL_Injection__URLConnection_prepareStatement_81_goodG2B exte
         {
             String ss="insert into users (status) values ('updated')";
             
-            this.execute(ss);
+            this.execute(data);
         }
         catch (SQLException exceptSql)
         {
