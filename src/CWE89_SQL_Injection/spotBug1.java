@@ -103,7 +103,7 @@ public class spotBug1
     public void objectExecuteQuery()
     {
 
-        Connection dbConnection = null;
+        Connection dbConnection = null
         PreparedStatement sqlStatement = null;
 
         try
