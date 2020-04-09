@@ -32,6 +32,7 @@ class sampleClass
 
     public int getField()
     {
+	hello1=hello2+hello3;
         return field;
     }
 }
