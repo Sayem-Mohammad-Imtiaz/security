@@ -120,5 +120,27 @@ public class spotBug1
         }
 
     }
+
+     public void objectHttpRequest(Servelet Request)
+    {
+        String data=request.getParameter("hey");
+
+        Connection dbConnection = null;
+        PreparedStatement sqlStatement = null;
+
+        try
+        {
+            dbConnection = IO.getDBConnection();
+            sqlStatement = dbConnection.prepareStatement("insert into users (status) values ('updated')"+data);
+
+            Boolean result = sqlStatement.execute();
+            sqlStatement.executeQuery("select * from table1 where");
+        }
+        catch (SQLException exceptSql)
+        {
+            IO.logger.log(Level.WARNING, "Error getting database connection", exceptSql);
+        }
+
+    }
     
 }
