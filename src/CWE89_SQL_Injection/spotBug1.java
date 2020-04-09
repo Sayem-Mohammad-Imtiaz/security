@@ -23,6 +23,8 @@ import javax.servlet.http.*;
 import java.sql.*;
 
 import java.util.logging.Level;
+import java.io.*;
+
 
 class sampleClass
 {
@@ -68,6 +70,49 @@ public class spotBug1
             sqlStatement = dbConnection.prepareStatement("insert into users (status) values ('updated') where name='"+data.getField()+"'");
 
             Boolean result = sqlStatement.execute();
+        }
+        catch (SQLException exceptSql)
+        {
+            IO.logger.log(Level.WARNING, "Error getting database connection", exceptSql);
+        }
+
+    }
+
+    public void objectBufferedReader() throws IOException
+    {
+        BufferedReader r=new BufferedReader(new FileReader("as.sql"));
+        String data=r.readLine();
+
+        Connection dbConnection = null;
+        PreparedStatement sqlStatement = null;
+
+        try
+        {
+            dbConnection = IO.getDBConnection();
+            sqlStatement = dbConnection.prepareStatement("insert into users (status) values ('updated') where name='"+data+"'");
+
+            Boolean result = sqlStatement.execute();
+        }
+        catch (SQLException exceptSql)
+        {
+            IO.logger.log(Level.WARNING, "Error getting database connection", exceptSql);
+        }
+
+    }
+
+    public void objectExecuteQuery()
+    {
+
+        Connection dbConnection = null;
+        PreparedStatement sqlStatement = null;
+
+        try
+        {
+            dbConnection = IO.getDBConnection();
+            sqlStatement = dbConnection.prepareStatement("insert into users (status) values ('updated')");
+
+            Boolean result = sqlStatement.execute();
+            sqlStatement.executeQuery("select * from table1 where r="+result);
         }
         catch (SQLException exceptSql)
         {
