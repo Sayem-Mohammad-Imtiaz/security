@@ -38,6 +38,27 @@ class sampleClass
 
 public class spotBug1
 {
+    public void objectNeutralized(sampleClass data)
+    {
+
+        Connection dbConnection = null;
+        PreparedStatement sqlStatement = null;
+
+        try
+        {
+            dbConnection = IO.getDBConnection();
+            sqlStatement = dbConnection.prepareStatement("insert into users (status) values ('updated') where name='"+data.field+"'");
+            sqlStatement.setString(1,data.field);
+
+            Boolean result = sqlStatement.execute();
+        }
+        catch (SQLException exceptSql)
+        {
+            IO.logger.log(Level.WARNING, "Error getting database connection", exceptSql);
+        }
+
+    }
+
     public void objectField(sampleClass data)
     {
 
@@ -103,7 +124,7 @@ public class spotBug1
     public void objectExecuteQuery()
     {
 
-        Connection dbConnection = null
+        Connection dbConnection = null;
         PreparedStatement sqlStatement = null;
 
         try
