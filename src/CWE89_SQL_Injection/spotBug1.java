@@ -39,6 +39,51 @@ class sampleClass
 
 public class spotBug1
 {
+    public void objectAddedToPrepared(String data)
+    {
+
+        Connection dbConnection = null;
+        PreparedStatement sqlStatement = null;
+
+        try
+        {
+            String query="select * from table";
+            query+=data;
+            dbConnection = IO.getDBConnection();
+            sqlStatement = dbConnection.prepareStatement(query);
+            sqlStatement.setString(1,data.field);
+
+            Boolean result = sqlStatement.execute();
+        }
+        catch (SQLException exceptSql)
+        {
+            IO.logger.log(Level.WARNING, "Error getting database connection", exceptSql);
+        }
+
+    }
+    public void objectAddedToPreparedWithStringBuffer(String data)
+    {
+
+        Connection dbConnection = null;
+        PreparedStatement sqlStatement = null;
+
+        try
+        {
+            StringBuffer query="select * from table";
+            query.append(data);
+            dbConnection = IO.getDBConnection();
+            sqlStatement = dbConnection.prepareStatement(query);
+            sqlStatement.setString(1,data.field);
+
+            Boolean result = sqlStatement.execute();
+        }
+        catch (SQLException exceptSql)
+        {
+            IO.logger.log(Level.WARNING, "Error getting database connection", exceptSql);
+        }
+
+    }
+
     public void objectNeutralized(sampleClass data)
     {
 
