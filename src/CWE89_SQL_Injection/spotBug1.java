@@ -51,7 +51,6 @@ public class spotBug1
             query+=data;
             dbConnection = IO.getDBConnection();
             sqlStatement = dbConnection.prepareStatement(query);
-            sqlStatement.setString(1,data.field);
 
             Boolean result = sqlStatement.execute();
         }
@@ -73,7 +72,6 @@ public class spotBug1
             query.append(data);
             dbConnection = IO.getDBConnection();
             sqlStatement = dbConnection.prepareStatement(query);
-            sqlStatement.setString(1,data.field);
 
             Boolean result = sqlStatement.execute();
         }
