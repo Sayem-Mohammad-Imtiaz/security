@@ -94,7 +94,25 @@ public class Custom209
 			System.err.println(s);
 		}
 		}
-	public void true2()
+	public void true5()
+	{
+	   try{
+
+	   CustomAdd c=new CustomAdd();
+	   c.CustomAdd_1();
+		}
+		catch(Exception ex)
+		{
+			StringWriter errors = new StringWriter();
+			PrintStream pw=new PrintStream(errors);
+			ex.printStackTrace(pw);
+			String s=errors.toString();
+			String p;
+			p=s;
+			System.err.print(p);
+		}
+		}
+	public void true4()
 	{
 	   try{
 
