@@ -78,5 +78,36 @@ public class Custom209
 			System.err.println(errors.toString());
 		}
 		}
+	public void true3()
+	{
+	   try{
+
+	   CustomAdd c=new CustomAdd();
+	   c.CustomAdd_1();
+		}
+		catch(Exception ex)
+		{
+			StringWriter errors = new StringWriter();
+			PrintStream pw=new PrintStream(errors);
+			ex.printStackTrace(pw);
+			String s=errors.toString();
+			System.err.println(s);
+		}
+		}
+	public void true2()
+	{
+	   try{
+
+	   CustomAdd c=new CustomAdd();
+	   c.CustomAdd_1();
+		}
+		catch(Exception ex)
+		{
+			StringWriter errors = new StringWriter();
+			PrintWriter pw=new PrintWriter(errors);
+			ex.printStackTrace();
+			System.err.println(errors.toString());
+		}
+		}
 }
 
