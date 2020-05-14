@@ -20,6 +20,35 @@ public class Custom209
 			ex.printStackTrace(new PrintWriter(errors));
 		}
 	}
+	public void false2()
+	{
+	   try{
+
+	   CustomAdd c=new CustomAdd();
+	   c.CustomAdd_1();
+		}
+		catch(Exception ex)
+		{
+			StringWriter errors = new StringWriter();
+			PrintWriter pw=new PrintWriter(errors);
+			ex.printStackTrace(pw);
+		}
+	}
+	public void false3()
+	{
+	   try{
+
+	   CustomAdd c=new CustomAdd();
+	   c.CustomAdd_1();
+		}
+		catch(Exception ex)
+		{
+			StringWriter errors = new StringWriter();
+			PrintWriter pw;
+			pw=new PrintWriter(errors);
+			ex.printStackTrace(pw);
+		}
+	}
 	public void true1()
 	{
 	   try{
@@ -34,4 +63,21 @@ public class Custom209
 			System.out.println(errors.toString());
 		}
 	}
+	public void true2()
+	{
+	   try{
+
+	   CustomAdd c=new CustomAdd();
+	   c.CustomAdd_1();
+		}
+		catch(Exception ex)
+		{
+			StringWriter errors = new StringWriter();
+			PrintWriter pw=new PrintWriter(errors);
+			ex.printStackTrace(pw);
+			System.err.println(errors.toString());
+		}
+		}
+	}
+
 }

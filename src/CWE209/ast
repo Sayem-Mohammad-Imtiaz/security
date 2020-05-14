@@ -1,0 +1,160 @@
+nodePrint[] = {
+   "kind": "CATCH",
+   "statements": [
+      {
+         "kind": "EXPRESSION",
+         "expressions": [
+            {
+               "kind": "VARDECL",
+               "variable_decls": [
+                  {
+                     "name": "errors",
+                     "variable_type": {
+                        "name": "StringWriter",
+                        "kind": "OTHER"
+                     },
+                     "initializer": {
+                        "kind": "NEW",
+                        "new_type": {
+                           "name": "StringWriter",
+                           "kind": "CLASS"
+                        }
+                     }
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "kind": "EXPRESSION",
+         "expressions": [
+            {
+               "kind": "METHODCALL",
+               "expressions": [
+                  {
+                     "kind": "VARACCESS",
+                     "variable": "ex"
+                  }
+               ],
+               "method": "printStackTrace",
+               "method_args": [
+                  {
+                     "kind": "NEW",
+                     "new_type": {
+                        "name": "PrintWriter",
+                        "kind": "CLASS"
+                     },
+                     "method_args": [
+                        {
+                           "kind": "VARACCESS",
+                           "variable": "errors"
+                        }
+                     ]
+                  }
+               ]
+            }
+         ]
+      }
+   ],
+   "variable_declaration": {
+      "name": "ex",
+      "variable_type": {
+         "name": "Exception",
+         "kind": "CLASS"
+      }
+   }
+}
+nodePrint[] = {
+   "kind": "CATCH",
+   "statements": [
+      {
+         "kind": "EXPRESSION",
+         "expressions": [
+            {
+               "kind": "VARDECL",
+               "variable_decls": [
+                  {
+                     "name": "errors",
+                     "variable_type": {
+                        "name": "StringWriter",
+                        "kind": "OTHER"
+                     },
+                     "initializer": {
+                        "kind": "NEW",
+                        "new_type": {
+                           "name": "StringWriter",
+                           "kind": "CLASS"
+                        }
+                     }
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "kind": "EXPRESSION",
+         "expressions": [
+            {
+               "kind": "METHODCALL",
+               "expressions": [
+                  {
+                     "kind": "VARACCESS",
+                     "variable": "ex"
+                  }
+               ],
+               "method": "printStackTrace",
+               "method_args": [
+                  {
+                     "kind": "NEW",
+                     "new_type": {
+                        "name": "PrintWriter",
+                        "kind": "CLASS"
+                     },
+                     "method_args": [
+                        {
+                           "kind": "VARACCESS",
+                           "variable": "errors"
+                        }
+                     ]
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "kind": "EXPRESSION",
+         "expressions": [
+            {
+               "kind": "METHODCALL",
+               "expressions": [
+                  {
+                     "kind": "VARACCESS",
+                     "variable": "System.out",
+                     "is_member_access": true
+                  }
+               ],
+               "method": "println",
+               "method_args": [
+                  {
+                     "kind": "METHODCALL",
+                     "expressions": [
+                        {
+                           "kind": "VARACCESS",
+                           "variable": "errors"
+                        }
+                     ],
+                     "method": "toString"
+                  }
+               ]
+            }
+         ]
+      }
+   ],
+   "variable_declaration": {
+      "name": "ex",
+      "variable_type": {
+         "name": "Exception",
+         "kind": "CLASS"
+      }
+   }
+}
