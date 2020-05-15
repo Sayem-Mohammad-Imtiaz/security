@@ -59,6 +59,21 @@ public class Custom209
 			ex.printStackTrace(pw);
 		}
 	}
+	public void true4()
+	{
+	   try{
+
+	   CustomAdd c=new CustomAdd();
+	   c.CustomAdd_1();
+		}
+		catch(Exception ex)
+		{
+			StringWriter errors = new StringWriter();
+			PrintWriter pw;
+			pw=new PrintWriter(errors);
+			log.error(ex.printStackTrace(pw));
+		}
+	}
 
 	public void true3()
 	{
