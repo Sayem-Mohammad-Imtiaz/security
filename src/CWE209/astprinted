@@ -1,0 +1,307 @@
+nodePrint[] = {
+   "name": "",
+   "declarations": [
+      {
+         "name": "TestAst",
+         "kind": "CLASS",
+         "modifiers": [
+            {
+               "kind": "VISIBILITY",
+               "visibility": "PUBLIC"
+            }
+         ],
+         "methods": [
+            {
+               "name": "true1",
+               "modifiers": [
+                  {
+                     "kind": "VISIBILITY",
+                     "visibility": "PUBLIC"
+                  }
+               ],
+               "return_type": {
+                  "name": "void",
+                  "kind": "OTHER"
+               },
+               "arguments": [
+                  {
+                     "name": "a",
+                     "variable_type": {
+                        "name": "int",
+                        "kind": "OTHER"
+                     }
+                  }
+               ],
+               "statements": [
+                  {
+                     "kind": "BLOCK",
+                     "statements": [
+                        {
+                           "kind": "EXPRESSION",
+                           "expressions": [
+                              {
+                                 "kind": "ASSIGN",
+                                 "expressions": [
+                                    {
+                                       "kind": "VARACCESS",
+                                       "variable": "a"
+                                    },
+                                    {
+                                       "kind": "OP_ADD",
+                                       "expressions": [
+                                          {
+                                             "kind": "VARACCESS",
+                                             "variable": "a"
+                                          },
+                                          {
+                                             "kind": "LITERAL",
+                                             "literal": "2"
+                                          }
+                                       ]
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "kind": "EXPRESSION",
+                           "expressions": [
+                              {
+                                 "kind": "VARDECL",
+                                 "variable_decls": [
+                                    {
+                                       "name": "i",
+                                       "variable_type": {
+                                          "name": "int",
+                                          "kind": "OTHER"
+                                       }
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "kind": "FOR",
+                           "statements": [
+                              {
+                                 "kind": "BLOCK",
+                                 "statements": [
+                                    {
+                                       "kind": "IF",
+                                       "statements": [
+                                          {
+                                             "kind": "CONTINUE"
+                                          }
+                                       ],
+                                       "conditions": [
+                                          {
+                                             "kind": "EQ",
+                                             "expressions": [
+                                                {
+                                                   "kind": "VARACCESS",
+                                                   "variable": "i"
+                                                },
+                                                {
+                                                   "kind": "LITERAL",
+                                                   "literal": "0"
+                                                }
+                                             ]
+                                          }
+                                       ]
+                                    },
+                                    {
+                                       "kind": "EXPRESSION",
+                                       "expressions": [
+                                          {
+                                             "kind": "METHODCALL",
+                                             "expressions": [
+                                                {
+                                                   "kind": "VARACCESS",
+                                                   "variable": "System.out",
+                                                   "is_member_access": true
+                                                }
+                                             ],
+                                             "method": "print",
+                                             "method_args": [
+                                                {
+                                                   "kind": "LITERAL",
+                                                   "literal": "\"ghgh\""
+                                                }
+                                             ]
+                                          }
+                                       ]
+                                    }
+                                 ]
+                              }
+                           ],
+                           "initializations": [
+                              {
+                                 "kind": "ASSIGN",
+                                 "expressions": [
+                                    {
+                                       "kind": "VARACCESS",
+                                       "variable": "i"
+                                    },
+                                    {
+                                       "kind": "LITERAL",
+                                       "literal": "0"
+                                    }
+                                 ]
+                              }
+                           ],
+                           "conditions": [
+                              {
+                                 "kind": "LT",
+                                 "expressions": [
+                                    {
+                                       "kind": "VARACCESS",
+                                       "variable": "i"
+                                    },
+                                    {
+                                       "kind": "LITERAL",
+                                       "literal": "10"
+                                    }
+                                 ]
+                              }
+                           ],
+                           "updates": [
+                              {
+                                 "kind": "OP_INC",
+                                 "expressions": [
+                                    {
+                                       "kind": "VARACCESS",
+                                       "variable": "i"
+                                    }
+                                 ],
+                                 "is_postfix": true
+                              }
+                           ]
+                        },
+                        {
+                           "kind": "TRY",
+                           "statements": [
+                              {
+                                 "kind": "BLOCK",
+                                 "statements": [
+                                    {
+                                       "kind": "EXPRESSION",
+                                       "expressions": [
+                                          {
+                                             "kind": "VARDECL",
+                                             "variable_decls": [
+                                                {
+                                                   "name": "c",
+                                                   "variable_type": {
+                                                      "name": "CustomAdd",
+                                                      "kind": "OTHER"
+                                                   },
+                                                   "initializer": {
+                                                      "kind": "NEW",
+                                                      "new_type": {
+                                                         "name": "CustomAdd",
+                                                         "kind": "CLASS"
+                                                      }
+                                                   }
+                                                }
+                                             ]
+                                          }
+                                       ]
+                                    },
+                                    {
+                                       "kind": "EXPRESSION",
+                                       "expressions": [
+                                          {
+                                             "kind": "METHODCALL",
+                                             "expressions": [
+                                                {
+                                                   "kind": "VARACCESS",
+                                                   "variable": "c"
+                                                }
+                                             ],
+                                             "method": "CustomAdd_1"
+                                          }
+                                       ]
+                                    }
+                                 ]
+                              },
+                              {
+                                 "kind": "CATCH",
+                                 "statements": [
+                                    {
+                                       "kind": "EXPRESSION",
+                                       "expressions": [
+                                          {
+                                             "kind": "VARDECL",
+                                             "variable_decls": [
+                                                {
+                                                   "name": "errors",
+                                                   "variable_type": {
+                                                      "name": "StringWriter",
+                                                      "kind": "OTHER"
+                                                   },
+                                                   "initializer": {
+                                                      "kind": "NEW",
+                                                      "new_type": {
+                                                         "name": "StringWriter",
+                                                         "kind": "CLASS"
+                                                      }
+                                                   }
+                                                }
+                                             ]
+                                          }
+                                       ]
+                                    },
+                                    {
+                                       "kind": "EXPRESSION",
+                                       "expressions": [
+                                          {
+                                             "kind": "METHODCALL",
+                                             "expressions": [
+                                                {
+                                                   "kind": "VARACCESS",
+                                                   "variable": "ex"
+                                                }
+                                             ],
+                                             "method": "printStackTrace",
+                                             "method_args": [
+                                                {
+                                                   "kind": "NEW",
+                                                   "new_type": {
+                                                      "name": "PrintWriter",
+                                                      "kind": "CLASS"
+                                                   },
+                                                   "method_args": [
+                                                      {
+                                                         "kind": "VARACCESS",
+                                                         "variable": "errors"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          }
+                                       ]
+                                    }
+                                 ],
+                                 "variable_declaration": {
+                                    "name": "ex",
+                                    "variable_type": {
+                                       "name": "Exception",
+                                       "kind": "CLASS"
+                                    }
+                                 }
+                              }
+                           ]
+                        }
+                     ]
+                  }
+               ]
+            }
+         ],
+         "fully_qualified_name": "TestAst"
+      }
+   ],
+   "imports": [
+      "java.io.*",
+      "java.util.logging.Logger"
+   ]
+}
