@@ -91,5 +91,49 @@ public class Custom209
 		}
 	}
 
+	public void true5(Throwable t)
+	{
+	   if(t!=null)
+	   {
+	   	 t.printStackTrace(System.err);
+	   }
+	}
+	public void true6(Throwable t)
+	{
+	   if(t!=null)
+	   {
+	   	 t.printStackTrace(System.out);
+	   }
+	}
+	public void true7(PrintWriter s)
+	{
+	   for(Throwable t: list)
+	   {
+	   	 t.printStackTrace(s);
+	   }
+	}
+
+	public void true8()
+	{
+		return new SSS() {
+				public Object truth8()
+				{
+					 try{
+
+	   CustomAdd c=new CustomAdd();
+	   c.CustomAdd_1();
+		}
+		catch(Exception ex)
+		{
+			File errors = new File();
+			PrintStream pw;
+			pw=new PrintStream(errors);
+			ex.printStackTrace(pw);
+		}
+				}
+		};
+	   
+	}
+
 }
 
