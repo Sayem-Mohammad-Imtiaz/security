@@ -39,10 +39,9 @@ public class Custom209
 
 	   CustomAdd c=new CustomAdd();
 	   c.CustomAdd_1();
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace(System.err);
+		} catch(Exception e){
+			//hhghg hhg
+			e.printStackTrace(System.err);
 		}
 	}
 	public void false2()
