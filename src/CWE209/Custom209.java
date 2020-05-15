@@ -124,7 +124,8 @@ public class Custom209
 	   {
 	   	 t.printStackTrace(System.out);
 	   }
-	}public void false3(Hello t)
+	}
+	public void false3(Hello t)
 	{
 	   if(t!=null)
 	   {
@@ -137,6 +138,17 @@ public class Custom209
 	   {
 	   	 t.printStackTrace(s);
 	   }
+	}
+	public void true10()
+	{
+	   if(t!=null)
+	   {
+	   	 new Exception(t).printStackTrace(System.out);
+	   }
+	}
+	public void true11(IOException[] t)
+	{
+	   	 t[0].printStackTrace(System.out);
 	}
 
 	public void true8()
