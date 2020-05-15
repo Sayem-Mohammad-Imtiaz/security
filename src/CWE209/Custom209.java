@@ -134,7 +134,7 @@ public class Custom209
 	}
 	public void true7(PrintWriter s)
 	{
-	   for(Throwable kam=0; kam<2; list++)
+	   for(Throwable kam: list)
 	   {
 	   	 kam.printStackTrace(s);
 	   }
