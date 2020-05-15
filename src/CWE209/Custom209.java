@@ -33,7 +33,7 @@ public class Custom209
 			p.printStackTrace(new PrintWriter(errors));
 		}
 	}
-	public void false1()
+	public void truth12()
 	{
 	   try{
 
@@ -42,7 +42,7 @@ public class Custom209
 		}
 		catch(Exception ex)
 		{
-			ex.printStackTrace();
+			ex.printStackTrace(System.err);
 		}
 	}
 	public void false2()
