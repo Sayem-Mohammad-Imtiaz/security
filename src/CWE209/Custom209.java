@@ -20,6 +20,19 @@ public class Custom209
 			ex.printStackTrace(new PrintWriter(errors));
 		}
 	}
+	public void false4()
+	{
+	   try{
+
+	   CustomAdd c=new CustomAdd();
+	   c.CustomAdd_1();
+		}
+		catch(Exception ex)
+		{
+			StringWriter errors = new StringWriter();
+			p.printStackTrace(new PrintWriter(errors));
+		}
+	}
 	public void false1()
 	{
 	   try{
@@ -99,6 +112,19 @@ public class Custom209
 	   }
 	}
 	public void true6(Throwable t)
+	{
+	   if(t!=null)
+	   {
+	   	 t.printStackTrace(System.out);
+	   }
+	}
+	public void true9(IOException t)
+	{
+	   if(t!=null)
+	   {
+	   	 t.printStackTrace(System.out);
+	   }
+	}public void false3(Hello t)
 	{
 	   if(t!=null)
 	   {
