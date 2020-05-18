@@ -34,6 +34,20 @@ public class CWE328_Reversible_One_Way_Hash__MD2_01 extends AbstractTestCase
 
     }
 
+    public void badmukta() throws Throwable
+    {
+
+        String input = "Test Input";
+
+        /* FLAW: Insecure cryptographic hashing algorithm (MD2) */
+        MessageDigest messageDigest;
+        messageDigest= MessageDigest.getInstance("MD2");
+        byte[] hashValue = messageDigest.digest(input.getBytes("UTF-8")); /* INCIDENTAL FLAW: Hard-coded input to hash algorithm */
+
+        IO.writeLine(IO.toHex(hashValue));
+
+    }
+
     public void good() throws Throwable
     {
         good1();
