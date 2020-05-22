@@ -16,12 +16,6 @@
  *  limitations under the License.
  */
 
-import io.undertow.servlet.api.ServletInfo;
-import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import javax.servlet.ServletException;
 import java.io.OutputStream;
@@ -36,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  * @author Stuart Douglas
  */
 
-public class ServletInputStreamEarlyCloseClientSide2{
+public class ServletInputStreamEarlyCloseClient2{
 
     public static final String SERVLET = "servlet";
 
