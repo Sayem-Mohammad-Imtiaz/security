@@ -16,13 +16,7 @@
  *  limitations under the License.
  */
 
-package io.undertow.servlet.test.streams;
-
 import io.undertow.servlet.api.ServletInfo;
-import io.undertow.servlet.test.util.DeploymentUtils;
-import io.undertow.testutils.DefaultServer;
-import io.undertow.testutils.HttpOneOnly;
-import io.undertow.testutils.TestHttpClient;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.BeforeClass;
@@ -31,7 +25,6 @@ import org.junit.runner.RunWith;
 
 import javax.servlet.ServletException;
 import java.io.OutputStream;
-import java.net.ServerSocket;
 
 import java.util.concurrent.TimeUnit;
 
@@ -42,8 +35,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Stuart Douglas
  */
-@RunWith(DefaultServer.class)
-@HttpOneOnly
+
 public class ServletInputStreamEarlyCloseClientSide2{
 
     public static final String SERVLET = "servlet";
