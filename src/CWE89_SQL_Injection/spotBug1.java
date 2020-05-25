@@ -43,8 +43,6 @@ public class spotBug1
     {
 
         String data=sc.readLine();
-            CWE89_SQL_Injection__URLConnection_prepareStatement_81_goodG2B muk= new CWE89_SQL_Injection__URLConnection_prepareStatement_81_goodG2B();
-muk.action("fg");
         Connection dbConnection = null;
         PreparedStatement sqlStatement = null;
 
