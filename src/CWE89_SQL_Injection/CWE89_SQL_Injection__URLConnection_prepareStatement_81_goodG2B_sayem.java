@@ -88,7 +88,7 @@ public class CWE89_SQL_Injection__URLConnection_prepareStatement_81_goodG2B exte
         }
 
     }
-    public void action(String data ) throws Throwable
+    public void actionMukta(String data ) throws Throwable
     {
 
         Connection dbConnection = null;
