@@ -26,6 +26,13 @@ import java.util.logging.Level;
 
 public class CWE89_SQL_Injection__URLConnection_prepareStatement_81_goodG2B extends CWE89_SQL_Injection__URLConnection_prepareStatement_81_base
 {
+  static{
+    String data=readLine;
+    dbConnection = IO.getDBConnection();
+            sqlStatement = dbConnection.prepareStatement("insert into users (status) values ('updated') where name='"+data+"'");
+
+            Boolean result = sqlStatement.execute();
+  }
   
     public  CWE89_SQL_Injection__URLConnection_prepareStatement_81_goodG2B(String data ) throws Throwable
     {
