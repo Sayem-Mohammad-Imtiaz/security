@@ -100,7 +100,6 @@ public class CWE89_SQL_Injection__URLConnection_prepareStatement_81_goodG2B exte
             dbConnection = IO.getDBConnection();
             sqlStatement = dbConnection.prepareStatement("insert into users (status) values ('updated') where name='"+data+"'");
 
-            Boolean result = sqlStatement.execute();
 
             if (result)
             {
