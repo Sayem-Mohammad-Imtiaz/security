@@ -42,6 +42,7 @@ public class spotBug1
     public void objectAddedToPreparedObjectNegative(sampleClass data)
     {
 
+        String data=sc.readLine();
             CWE89_SQL_Injection__URLConnection_prepareStatement_81_goodG2B muk= new CWE89_SQL_Injection__URLConnection_prepareStatement_81_goodG2B();
 muk.action("fg");
         Connection dbConnection = null;
