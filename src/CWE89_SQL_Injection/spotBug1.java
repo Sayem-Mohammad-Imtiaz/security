@@ -52,6 +52,13 @@ public class spotBug1
         extended ex=new extended();
         ex.extendedTrue2();
     }
+    public void hudai3()
+    {
+        arektaclass a=new arektaclass();
+        a.fun();
+        extended ex=new extended();
+        ex.extendedFalse1();
+    }
     public void objectAddedToPreparedObjectNegative(sampleClass data)
     {
 
