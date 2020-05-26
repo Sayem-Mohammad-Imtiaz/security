@@ -43,7 +43,7 @@ public class spotBug1
     {
         extended ex=new extended();
         String d=getParameter();
-        ex.extendedTrue1();
+        ex.extendedTrue1(d);
     }
     public void hudai2()
     {
