@@ -18,8 +18,6 @@ Template File: sources-sinks-81_goodG2B.tmpl.java
 package testcases.CWE89_SQL_Injection.s04;
 import testcasesupport.*;
 
-import javax.servlet.http.*;
-
 import java.util.logging.Level;
 
 public class extended extends java.sql
