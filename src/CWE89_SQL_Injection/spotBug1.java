@@ -39,6 +39,19 @@ class sampleClass
 
 public class spotBug1
 {
+    public void hudai()
+    {
+        extended ex=new extended();
+        String d=getParameter();
+        ex.extendedTrue1();
+    }
+    public void hudai2()
+    {
+        arektaclass a=new arektaclass();
+        a.fun();
+        extended ex=new extended();
+        ex.extendedTrue2();
+    }
     public void objectAddedToPreparedObjectNegative(sampleClass data)
     {
 
